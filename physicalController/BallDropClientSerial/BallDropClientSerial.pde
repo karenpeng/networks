@@ -23,7 +23,7 @@ int serialCount = 0;
 
 
 Client myClient;                   // instance of the net Client
-String data;                       // string to hold incoming data
+String data = null;                       // string to hold incoming data
 String ipAddress = "128.122.151.180";    // address of the server goes here
 boolean tellArduionIfConnected = false;
 
@@ -125,7 +125,7 @@ void serialEvent(Serial myPort) {
         sensorsTimer[0] ++;
       }
 
-      if (sensorsTimer[0] > 6) {
+      if (sensorsTimer[0] > 4) {
         sensorsTimer[0] = 0;
       }
 

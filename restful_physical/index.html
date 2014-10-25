@@ -1,0 +1,28 @@
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+  //var button = document.getElementById("clickMe");
+  var boo = false;
+  function wow(){
+    boo = !boo;
+    $.ajax({
+      url:'/post',
+      method:'POST',
+      data: {value:boo},
+      dataType: 'jsonp',
+      error:function(err){
+       throw err;
+      },
+      success:function(data){
+        console.log("yeahhh!!!");
+      }
+    });
+  }
+</script>
+</head>
+<body>
+<p>hello world</p>
+<button id="clickMe" onclick ="wow()">Click me</buttton>
+</body>
+</html>

@@ -24,10 +24,6 @@
 
  */
 
-int firstSensor = 0;    // first analog sensor
-int secondSensor = 0;   // second analog sensor
-int thirdSensor = 0;    // digital sensor
-int inByte = 0;         // incoming serial byte
 
 void setup()
 {
@@ -37,16 +33,21 @@ void setup()
     ; // wait for serial port to connect. Needed for Leonardo only
   }
 
-  pinMode(2, INPUT);   // digital sensor is on digital pin 2
+  pinMode(3, OUTPUT);   // digital sensor is on digital pin 2
+  pinMode(6, OUTPUT);   // digital sensor is on digital pin 2
+  analogWrite(3,500);
+  analogWrite(6,500);
   establishContact();  // send a byte to establish contact until receiver responds 
+  
 }
 
 void loop()
-{
+{  
+  int currentPin = 0;
   // if we get a valid byte, read analog ins:
   if (Serial.available() > 0) {
     // get incoming byte:
-    inByte = Serial.read();
+    int inByte = Serial.read();
     // read first analog input, divide by 4 to make the range 0-255:
     //firstSensor = analogRead(A0)/4;
     // delay 10ms to let the ADC recover:
@@ -59,12 +60,21 @@ void loop()
     //Serial.write(firstSensor);
     //Serial.write(secondSensor);
     //Serial.write(thirdSensor);
-    if(inByte == 76){
-     digitalWrite(2, LOW);  
+    switch(inByte){
+      case'x':
+       currentPin = 3;
+       break;
+      case 'y':
+       currentPin = 6;
+       break;
     }
-  
-    else if(inByte == 72 ){
-     digitalWrite(2,HIGH); 
+    
+    if(currentPin != 0){
+      int value = Serial.parseInt();
+      Serial.println(currentPin);
+      Serial.println(value);
+      //value = map(value, 0, 1000, 0, 255);
+      analogWrite(currentPin, value);
     }
   }
 }

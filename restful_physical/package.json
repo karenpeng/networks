@@ -2,7 +2,6 @@
   "dependencies": {
     "ejs": "1.0.0",
     "express": "*",
-    "serialport": "1.4.6",
-    "body-parser": "1.9.1"
+    "serialport": "1.4.6"
   }
 }

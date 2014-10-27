@@ -4,7 +4,7 @@ var ejs = require("ejs");
 var bodyParser = require('body-parser');
 var serialport = require("serialport");
 var SerialPort = require("serialport").SerialPort;
-var serialPort = new SerialPort("/dev/tty.usbmodem1431", {
+var serialPort = new SerialPort("/dev/tty.usbmodem1411", {
   baudrate: 9600,
   parser: serialport.parsers.readline("\r\n")
 });
@@ -12,6 +12,7 @@ var serialPort = new SerialPort("/dev/tty.usbmodem1431", {
 //   baudrate: 9600,
 //   parser: serialport.parsers.readline("\n")
 // });
+var router = express.Router();
 
 app.listen(4000);
 
@@ -21,6 +22,14 @@ app.set("views", __dirname);
 // Set EJS as templating language WITH html as an extension)
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
+
+// express on its own has no notion
+// of a "file". The express.static()
+// middleware checks for a file matching
+// the `req.path` within the directory
+// that you pass it. In this case "GET /js/app.js"
+// will look for "./public/js/app.js".
+app.use(express.static(__dirname + '/public'));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
@@ -39,24 +48,29 @@ app.get('/', function (req, res) {
   res.render('index.html');
 });
 
-app.post('/post', jsonParser, function (req, res) {
-  if (!req.body) return res.sendStatus(400);
-  console.log(typeof req.body.value)
-  if (req.body.value === 'true') {
-    serialPort.write('L');
-    console.log('L');
-  }
-  if (req.body.value === 'false') {
-    serialPort.write('H');
-    console.log('H');
-  }
+app.get('/position/:name/:value', function (req, res) {
+  console.log('from web client ' + req.params.name + ' ' + req.params.value);
+  setToSerial(req.params.name, req.params.value);
 });
 
-var firstContact = false;
+app.get('/record/:x/:xvalue/:y/:yvalue', function (req, res) {
+  console.log('from web client ' + req.params.x + ' ' + req.params.xvalue + req.params.y + ' ' + req.params.yvalue);
+  //save it
+});
+
+app.post('/post', jsonParser, function (req, res) {
+  if (!req.body) return res.sendStatus(400);
+
+});
+
+function setToSerial(name, value) {
+  serialPort.write(name + value);
+}
+
 serialPort.on('open', function () {
   console.log('open');
   serialPort.on('data', function (data) {
-    console.log('data received: ' + typeof data + ' ' + data);
+    console.log('from arduino: ' + typeof data + ' ' + data);
     //if (!firstContact) {
     if (data === 'A') {
       console.log("yeah");

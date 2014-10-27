@@ -1,28 +1,118 @@
 <html>
 <head>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-  //var button = document.getElementById("clickMe");
-  var boo = false;
-  function wow(){
-    boo = !boo;
-    $.ajax({
-      url:'/post',
-      method:'POST',
-      data: {value:boo},
-      dataType: 'jsonp',
-      error:function(err){
-       throw err;
-      },
-      success:function(data){
-        console.log("yeahhh!!!");
-      }
-    });
-  }
-</script>
+  <style type="text/css">
+    #dpad{
+      width: 90px;
+      height: 90px;
+      position: relative;
+    }
+    #up, #right, #left, #down{
+      width: 30px;
+      height: 30px;
+      background-size: 90px;
+      position: absolute;
+    }
+    #up{
+      background-image: url('img/4r4UR.png');
+      background-position-x: -30px;
+      top: 0;
+      left: 30px;
+    }
+    #left{
+      background-image: url('img/4r4UR.png');
+      background-position-y: -30px;
+      top: 30px;
+      left: 0;
+    }
+    #right{
+      background-image: url('img/4r4UR.png');
+      background-position-x: 30px;
+      background-position-y: -30px;
+      top: 30px;
+      left: 60px;
+    }
+    #down{
+      background-image: url('img/4r4UR.png');
+      background-position-x: -30px;
+      background-position-y: 30px;
+      top: 60px;
+      left: 30px;
+    }
+  </style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    var x = 500;
+    var y = 500;
+    //var button = document.getElementById("clickMe");
+    var boo = false;
+    function setPos(name, value){
+      // var request = new XMLHttpRequest();
+      //   // GET /output/color/level, and make an asynchronous request:
+      //   request.open( "GET", '/output/' + x + "/" + y, true );
+      //   // close the request:
+      //   request.send( null );
+      $.ajax({
+        url:'/position/' + name + '/' + value,
+        method:'GET',
+        error:function(err){
+         throw err;
+        },
+        success:function(data){
+          console.log("yeahhh!!!");
+        }
+      });
+    }
+    function up(){
+      y += 20;
+      check();
+      console.log("y",y);
+      setPos("y",y);
+    }
+    function left(){
+      x -= 20;
+      check();
+      console.log("x",x);
+      setPos("x",x);
+    }
+    function right(){
+      x += 20;
+      check();
+      console.log("x",x);
+      setPos("x",x);
+    }
+    function down(){
+      y -= 20;
+      check();
+      console.log("y",y);
+      setPos("y",y);
+    }
+    function check(){
+      if(x<0) x=0;
+      if(x>1000) x=1000;
+      if(y<0) y=0;
+      if(y>1000) y=1000;
+    }
+    function sentData(){
+      $.ajax({
+        url:'/record/' + 'x' + '/' + x + '/' + 'y' +'/' + y,
+        method:'GET',
+        error:function(err){
+         throw err;
+        },
+        success:function(data){
+          console.log("yeahhh!!!");
+        }
+      });
+    }
+  </script>
 </head>
 <body>
-<p>hello world</p>
-<button id="clickMe" onclick ="wow()">Click me</buttton>
+<div id="dpad">
+ <div id="up" onclick="up()"></div>
+ <div id="left" onclick="left()"></div>
+ <div id="right" onclick="right()"></div>
+ <div id="down" onclick="down()"></div>
+</div>
+<button id="clickMe" onclick ="sentData()">sent</buttton>
 </body>
 </html>

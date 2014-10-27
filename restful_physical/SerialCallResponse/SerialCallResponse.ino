@@ -59,13 +59,13 @@ void loop()
     //Serial.write(firstSensor);
     //Serial.write(secondSensor);
     //Serial.write(thirdSensor);
-    if(inByte == 'L'){
+    if(inByte == 76){
      digitalWrite(2, LOW);  
     }
   
-  else if(inByte == 'H' ){
-   digitalWrite(2,HIGH); 
-  }
+    else if(inByte == 72 ){
+     digitalWrite(2,HIGH); 
+    }
   }
 }
 

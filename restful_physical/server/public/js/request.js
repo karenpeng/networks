@@ -3,7 +3,7 @@ var y = 500;
 var request = new XMLHttpRequest();
 
 function setPos(name, value) {
-  request.open("POST", '/position/' + name + "/" + value, true);
+  request.open("GET", '/position/' + name + "/" + value, true);
   // close the request:
   request.send(null);
 }
@@ -45,14 +45,12 @@ function check() {
 
 function makeRecord() {
   var name = document.getElementById('nameInput').value;
-  request.open("POST", '/record/' + name + '/' + x + '/' + y, true);
-  // close the request:
+  request.open("GET", '/record/' + name + '/' + x + '/' + y, true);
   request.send(null);
 }
 
 function getRecord() {
   var name = document.getElementById('nameFind').value;
   request.open("GET", '/record/' + name, true);
-  // close the request:
   request.send(null);
 }

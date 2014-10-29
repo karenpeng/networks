@@ -1,11 +1,13 @@
 var express = require("express");
 var app = express();
 var ejs = require("ejs");
+var server = require('http').createServer(app);
+var WebSocketServer = require('ws').Server,
 
-var records = {};
+  var records;
 var id = 0;
 
-app.listen(4000);
+server.listen(4000);
 
 // Set up the view directory
 app.set("views", __dirname);
@@ -20,12 +22,12 @@ app.get('/', function (req, res) {
   res.render('index.html');
 });
 
-app.post('/position/:name/:value', function (req, res) {
+app.get('/position/:name/:value', function (req, res) {
   console.log('from web client ' + req.params.name + ' ' + req.params.value);
   //send yun this
 });
 
-app.post('/record/:name/:x/:y', function (req, res) {
+app.get('/record/:name/:x/:y', function (req, res) {
   //save it
   //TODO: hook up a database later
   var key = req.params.name;
@@ -44,7 +46,15 @@ app.get('/record/:name', function (req, res) {
   //send yun this
 });
 
-app.get('/hello', function (req, res) {
-  //what should i do here?
-  //how should i respond to yun?
+// listen for new socket.io connections:
+socketServer.on('connection', function (socket) {
+  // send something to the web client with the data:
+  socket.send("Hello!");
+
+  // if the client sends you data, act on it:
+  socket.on('message', function (data) {
+    console.log('received from client: ' + data);
+  });
 });
+
+//TODO:make a task que

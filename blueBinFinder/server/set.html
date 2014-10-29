@@ -5,12 +5,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
 <body>
-  <div id="option">
-    <h1 id="set" class='choice' onclick="showSetting()">Set Bin</h1>
-    <h4>or</h4>
-    <h1 id="find" class='choice' onclick="showFinding()">Find Bin</h1>
-  </div>
-<div id="finding">
+<div id="setting">
     <p>Name:</p>
     <input id="nameInput" type="text"></input>
     <div id="dpad">
@@ -22,12 +17,6 @@
     </div>
     <p id="setButton" onclick ="makeRecord()">set</p>
 </div>
-<div id="setting">
-  <p>Name:</p>
-  <input id="nameFind" type="text"></input>
-  <button id="findButton" onclick="getRecord()">find</button>
-</div>
 </body>
 </html>
-<script type="text/javascript" src="js/dom.js"></script>
 <script type="text/javascript" src="js/request.js"></script>

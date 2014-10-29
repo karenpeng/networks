@@ -2,9 +2,14 @@ var express = require("express");
 var app = express();
 var ejs = require("ejs");
 var server = require('http').createServer(app);
-var WebSocketServer = require('ws').Server,
+var WebSocketServer = require('ws').Server;
+var socketServer = new WebSocketServer({
+  server: server
+});
+var config = require("./config.json");
 
-  var records;
+//you have to define an empty object first b/c otherwise you can't add key in it
+var records = {};
 var id = 0;
 
 server.listen(4000);
@@ -22,6 +27,14 @@ app.get('/', function (req, res) {
   res.render('index.html');
 });
 
+app.get('/set', function (req, res) {
+  res.render('set.html');
+});
+
+app.get('/find', function (req, res) {
+  res.render('find.html');
+});
+
 app.get('/position/:name/:value', function (req, res) {
   console.log('from web client ' + req.params.name + ' ' + req.params.value);
   //send yun this
@@ -31,18 +44,20 @@ app.get('/record/:name/:x/:y', function (req, res) {
   //save it
   //TODO: hook up a database later
   var key = req.params.name;
-  records[key] = {
+  console.log(key);
+  records.key = {
     'id': id,
     'x': req.params.x,
     'y': req.params.y
   };
-  console.log(records[key]);
+  console.log(records.key);
   id++;
+  console.log("save data " + records);
 });
 
 app.get('/record/:name', function (req, res) {
   var key = req.params.name;
-  console.log(records[key]);
+  console.log("asking data from " + records.key);
   //send yun this
 });
 

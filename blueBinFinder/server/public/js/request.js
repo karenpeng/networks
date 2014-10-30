@@ -2,8 +2,8 @@ var x = 500;
 var y = 500;
 var request = new XMLHttpRequest();
 
-function setPos(name, value) {
-  request.open("GET", '/position/' + name + "/" + value, true);
+function setPos(axis, value) {
+  request.open("GET", '/position/' + axis + "/" + value, true);
   // close the request:
   request.send(null);
 }
@@ -44,13 +44,15 @@ function check() {
 }
 
 function makeRecord() {
-  var name = document.getElementById('nameInput').value;
-  request.open("GET", '/record/' + name + '/' + x + '/' + y, true);
+  var firstName = document.getElementById('firstNameSet').value;
+  var lastName = document.getElementById('lastNameSet').value;
+  request.open("GET", '/record/' + firstName + '/' + lastName + '/' + x + '/' + y, true);
   request.send(null);
 }
 
 function getRecord() {
-  var name = document.getElementById('nameFind').value;
-  request.open("GET", '/record/' + name, true);
+  var firstName = document.getElementById('firstNameFind').value;
+  var lastName = document.getElementById('lastNameFind').value;
+  request.open("GET", '/record/' + firstName + '/' + lastName, true);
   request.send(null);
 }

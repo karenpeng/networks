@@ -4,6 +4,6 @@ Teacher Tom's repo for this class [here](https://github.com/tigoe/NetworkExample
 
 Due to app deployment consideration, two of my homeworks are moved out of this repo to their individual repo:
 
-[Tracerout]:(https://github.com/karenpeng/traceroute)
+[Tracerout](https://github.com/karenpeng/traceroute)
 
-[Bluebinfinder]:(https://github.com/karenpeng/bluebinfinder)
+[Bluebinfinder](https://github.com/karenpeng/bluebinfinder)
